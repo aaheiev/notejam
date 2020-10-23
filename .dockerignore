@@ -3,3 +3,4 @@
 .pgdata
 .git
 tmp/cache/*
+log/*
