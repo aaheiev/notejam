@@ -1,0 +1,46 @@
+---
+version: '3.7'
+
+services:
+
+  postgres:
+    image:               postgres:12-alpine
+    environment:
+      POSTGRES_USER:     notejam
+      POSTGRES_PASSWORD: bohwaix7aeza7Ue
+      POSTGRES_DB:       notejam
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    healthcheck:
+      test:       ["CMD-SHELL", "pg_isready --dbname=postgres --username=notejam"]
+      interval:   15s
+      timeout:    10s
+      retries:    5
+
+  redis:
+    image:        redis:alpine
+    ports:
+      - 6379:6379
+
+  notejam:
+    image:        notejam:latest
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      APP_SESSION_KEY: ailaephiezohchu7uvau7aijoLu5naic
+      RAILS_ENV:  development
+      REDIS_URL:  redis://redis:6379/0
+      DB_NAME:    notejam
+      DB_HOST:    postgres
+      DB_PORT:    5432
+      DB_POOL:    5
+      DB_USER:    notejam
+      DB_PASS:    bohwaix7aeza7Ue
+    ports:
+      - 3000:3000
+
+volumes:
+  pgdata:
