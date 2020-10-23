@@ -1,5 +1,5 @@
 ---
-version: '3.7'
+version: '3.8'
 
 services:
 
@@ -19,16 +19,22 @@ services:
       timeout:    10s
       retries:    5
 
+  mailcatcher:
+    image:        schickling/mailcatcher
+    ports:
+      - 1025:1025
+      - 1080:1080
   redis:
     image:        redis:alpine
     ports:
       - 6379:6379
 
   notejam:
-    image:        notejam:latest
+    build:        .
     depends_on:
       - postgres
       - redis
+      - mailcatcher
     environment:
       APP_SESSION_KEY: ailaephiezohchu7uvau7aijoLu5naic
       RAILS_ENV:  development
