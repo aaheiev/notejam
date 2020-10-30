@@ -19,25 +19,27 @@ services:
       timeout:    10s
       retries:    5
 
-  mailcatcher:
-    image:        schickling/mailcatcher
-    ports:
-      - 1025:1025
-      - 1080:1080
+#  mailcatcher:
+#    image:        schickling/mailcatcher
+#    ports:
+#      - 1025:1025
+#      - 1080:1080
   redis:
     image:        redis:alpine
     ports:
       - 6379:6379
 
   notejam:
-    build:        .
+#    build:        .
+    image:        notejam:latest
     depends_on:
       - postgres
       - redis
-      - mailcatcher
+#      - mailcatcher
     environment:
       APP_SESSION_KEY: ailaephiezohchu7uvau7aijoLu5naic
-      RAILS_ENV:  development
+#      RAILS_ENV:  development
+      RAILS_ENV:  production
       REDIS_URL:  redis://redis:6379/0
       DB_NAME:    notejam
       DB_HOST:    postgres
